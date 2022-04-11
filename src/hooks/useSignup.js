@@ -17,7 +17,7 @@ export const useSignup = () => {
 
     try {
       // signup
-
+      
       const res = await createUserWithEmailAndPassword(
         projectAuth,
         email,
@@ -57,6 +57,7 @@ export const useSignup = () => {
         setError(null);
       }
     } catch (err) {
+      setError(err.message)
       if (!isCancelled) {
         setError(err.message);
         setIsPending(false);
