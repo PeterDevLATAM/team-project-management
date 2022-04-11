@@ -8,7 +8,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import Avatar from "../avatar/avatar.component";
 
 export default function Sidebar() {
-  const { user, authIsReady } = useAuthContext();
+  const { user } = useAuthContext();
   return (
     <div className="sidebar">
       <div className="sidebar-content">

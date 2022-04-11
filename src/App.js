@@ -6,6 +6,7 @@ import Signup from "./pages/signup/signup.component";
 import ProjectDetails from "./pages/project-details/project-detail.component";
 import Navbar from "./components/navbar/navbar.component";
 import Sidebar from "./components/sidebar/sidebar.component";
+import OnlineUsers from "./components/online-users/online-users.component"
 
 import { useAuthContext } from "./hooks/useAuthContext";
 
@@ -43,6 +44,7 @@ function App() {
                </Route>
             </Switch>
           </div>
+          {user && <OnlineUsers/>}
         </BrowserRouter>
       )}
     </div>

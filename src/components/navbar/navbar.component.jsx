@@ -8,7 +8,7 @@ import Temple from "../../assets/temple.svg";
 
 export default function Navbar() {
   const { logout, isPending } = useLogout();
-  const { user, authIsReady } = useAuthContext();
+  const { user } = useAuthContext();
   return (
     <nav className="navbar">
       <ul>
