@@ -19,6 +19,7 @@ export default function Create() {
   const [dueDate, setDueDate] = useState("");
   const [category, setCategory] = useState("");
   const [assignedUsers, setAssignedUsers] = useState([]);
+  const [formError, setFormError] = useState(null);
 
   const [users, setUsers] = useState();
   const { documents } = useCollection("users");
@@ -34,7 +35,15 @@ export default function Create() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(assignedUsers)
+    setFormError(null); // clear out the errors and then update error state
+    if (!category) {
+      setFormError("Please add a category");
+      return;
+    }
+    if (assignedUsers.length < 1) {
+      setFormError("Please add at least one User asigned to de task");
+      return;
+    }
   };
   return (
     <div className="create-form">
@@ -82,6 +91,7 @@ export default function Create() {
           />
         </label>
         <button className="btn">Add Project</button>
+        {formError && <p className="error">{formError}</p> }
       </form>
     </div>
   );
