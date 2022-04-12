@@ -21,7 +21,7 @@ export const useCollection = (collectionName, _query, _orderBy) => {
     let collectionRef = collection(projectFirestore, collectionName);
 
     if (queryParam) {
-      collectionRef = query(collectionRef, where(query));
+      collectionRef = query(collectionRef, where(queryParam));
     }
     if (orderByParam) {
       collectionRef = query(collectionRef, orderBy(orderByParam));
