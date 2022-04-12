@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 
 import { useCollection } from "../../hooks/useCollection";
+import { useFirestore } from "../../hooks/useFirestore";
+
+import { useAuthContext } from "../../hooks/useAuthContext";
+
+import { Timestamp } from "firebase/firestore";
 
 import Select from "react-select";
+import {useHistory} from "react-router-dom"
 
 import "./create.styles.css";
 
@@ -24,6 +30,11 @@ export default function Create() {
   const [users, setUsers] = useState();
   const { documents } = useCollection("users");
 
+  const { user } = useAuthContext();
+  const {addDocument, response} = useFirestore('projects')
+
+  const history = useHistory()
+
   useEffect(() => {
     if (documents) {
       const options = documents.map((user) => {
@@ -33,7 +44,7 @@ export default function Create() {
     }
   }, [documents]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormError(null); // clear out the errors and then update error state
     if (!category) {
@@ -44,6 +55,34 @@ export default function Create() {
       setFormError("Please add at least one User asigned to de task");
       return;
     }
+    const createdBy = {
+      id: user.uid,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    };
+    const assignedUsersList = assignedUsers.map((user) => {
+      return {
+        displayName: user.value.displayName,
+        photoURL: user.value.photoURL,
+        id: user.value.id,
+      };
+    });
+    const project = {
+      name,
+      details,
+      category: category.value,
+      dueDate: Timestamp.fromDate(new Date(dueDate)),
+      createdBy,
+      comments: [],
+      assignedUsersList,
+    };
+    //Write to DB
+    await addDocument(project)
+    console.log("Response: ", response)
+    if (!response.error){
+      history.push('/')
+    }
+
   };
   return (
     <div className="create-form">
@@ -91,7 +130,7 @@ export default function Create() {
           />
         </label>
         <button className="btn">Add Project</button>
-        {formError && <p className="error">{formError}</p> }
+        {formError && <p className="error">{formError}</p>}
       </form>
     </div>
   );
