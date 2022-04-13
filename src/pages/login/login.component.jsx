@@ -16,7 +16,7 @@ export default function Loguin() {
 
   return (
     <form className="auth-form" onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+      <h2>Login </h2>
       <label>
         <span>email:</span>
         <input

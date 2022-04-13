@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./project-filter.styles.css";
 const filterList = [
   "all",

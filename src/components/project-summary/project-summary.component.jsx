@@ -5,7 +5,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useHistory } from "react-router-dom";
 
 export default function ProjectSummary({ project }) {
-  const { deleteDocument, response } = useFirestore("projects");
+  const { deleteDocument } = useFirestore("projects");
   const { user } = useAuthContext();
   const history = useHistory();
 
