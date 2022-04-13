@@ -3,15 +3,18 @@ import "./project-comment.styles.css";
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Timestamp } from "firebase/firestore";
+import { useFirestore } from "../../hooks/useFirestore";
 
 //generate an unique(extremely close to unique) id
 function uid() {
     return (performance.now().toString(36)+Math.random().toString(36)).replace(/\./g,"");
   };
 
-export default function ProjectComents() {
+export default function ProjectComents({project}) {
   const [newComment, setNewComment] = useState("");
   const {user} = useAuthContext()
+
+  const {updateDocument}= useFirestore('projects')
 
   const handleSubmit=(e)=>{
     e.preventDefault()
@@ -22,7 +25,10 @@ export default function ProjectComents() {
         createdAt: Timestamp.fromDate(new Date()), 
         id: uid()
     }
-    console.log(commentToAdd)
+    let comments = []
+    comments = project.comments
+    comments.push(commentToAdd)
+    updateDocument(project.id, {comments:comments})
   }
 
   return (
