@@ -8,7 +8,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { Timestamp } from "firebase/firestore";
 
 import Select from "react-select";
-import {useHistory} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 import "./create.styles.css";
 
@@ -33,7 +33,7 @@ export default function Create() {
   const { user } = useAuthContext();
   const {addDocument, response} = useFirestore('projects')
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (documents) {
@@ -80,7 +80,7 @@ export default function Create() {
     await addDocument(project)
     console.log("Response: ", response)
     if (!response.error){
-      history.push('/')
+      navigate.push('/')
     }
 
   };
